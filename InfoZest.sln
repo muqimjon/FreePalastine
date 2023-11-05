@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A7B4E70F-69B4-466B-A340-9129088E6BBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoZest.Domain", "src\InfoZest.Domain\InfoZest.Domain.csproj", "{288A1B9C-E23D-4DCE-91BE-10422685FADA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoZest.Service", "src\InfoZest.Service\InfoZest.Service.csproj", "{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoZest.DataAccess", "src\InfoZest.DataAccess\InfoZest.DataAccess.csproj", "{A6F37551-DA5B-40E2-A892-0BF667D6B878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoZest.WebApi", "src\InfoZest.WebApi\InfoZest.WebApi.csproj", "{FE9005B2-C1C5-4FCF-8427-01A569386D3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{288A1B9C-E23D-4DCE-91BE-10422685FADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288A1B9C-E23D-4DCE-91BE-10422685FADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288A1B9C-E23D-4DCE-91BE-10422685FADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288A1B9C-E23D-4DCE-91BE-10422685FADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F37551-DA5B-40E2-A892-0BF667D6B878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F37551-DA5B-40E2-A892-0BF667D6B878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F37551-DA5B-40E2-A892-0BF667D6B878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F37551-DA5B-40E2-A892-0BF667D6B878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{288A1B9C-E23D-4DCE-91BE-10422685FADA} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
+		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
+		{A6F37551-DA5B-40E2-A892-0BF667D6B878} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
+		{FE9005B2-C1C5-4FCF-8427-01A569386D3D} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
+	EndGlobalSection
+EndGlobal
