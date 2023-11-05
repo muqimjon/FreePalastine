@@ -37,9 +37,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         this.table.Remove(entity);
     }
 
-    public async ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null)
+    public async ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null!)
     {
-        IQueryable<TEntity> entities = expression == null ? this.table.AsQueryable() : this.table.Where(expression).AsQueryable();
+        IQueryable<TEntity> entities = expression == null! ? this.table.AsQueryable() : this.table.Where(expression).AsQueryable();
 
         if (includes is not null)
             foreach (var include in includes)
@@ -49,9 +49,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
     }
 
     public IQueryable<TEntity> SelectAll(
-        Expression<Func<TEntity, bool>> expression = null, string[] includes = null, bool isTracking = true)
+        Expression<Func<TEntity, bool>> expression = null!, string[] includes = null!, bool isTracking = true)
     {
-        IQueryable<TEntity> entities = expression == null ? this.table.AsQueryable()
+        IQueryable<TEntity> entities = expression == null! ? this.table.AsQueryable()
             : this.table.Where(expression).AsQueryable();
 
         entities = isTracking ? entities.AsNoTracking() : entities;
