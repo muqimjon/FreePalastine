@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoZest.DataAccess", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoZest.WebApi", "src\InfoZest.WebApi\InfoZest.WebApi.csproj", "{FE9005B2-C1C5-4FCF-8427-01A569386D3D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EBF6BF43-C6CD-4E21-A9E7-FB870191B08C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoZest.Test", "test\InfoZest.Test\InfoZest.Test.csproj", "{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE9005B2-C1C5-4FCF-8427-01A569386D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +52,9 @@ Global
 		{8EF085A7-2D44-4E2C-A7A8-D466E6DEBD36} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
 		{A6F37551-DA5B-40E2-A892-0BF667D6B878} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
 		{FE9005B2-C1C5-4FCF-8427-01A569386D3D} = {A7B4E70F-69B4-466B-A340-9129088E6BBB}
+		{F9B9B8F8-21D6-4F3D-ABD5-C4DBBD70A7A8} = {EBF6BF43-C6CD-4E21-A9E7-FB870191B08C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16AB3DFD-8B55-4CC4-8CBD-5E4719253538}
 	EndGlobalSection
 EndGlobal
