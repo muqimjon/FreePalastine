@@ -1,4 +1,5 @@
-﻿using InfoZest.DataAccess.IRepositories;
+﻿using AutoMapper;
+using InfoZest.DataAccess.IRepositories;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.Interfaces;
 
@@ -6,10 +7,12 @@ namespace InfoZest.Service.Services;
 
 public class ProductService : IProductService
 {
+    private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
-    public ProductService(IUnitOfWork unitOfWork)
+    public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         this.unitOfWork = unitOfWork;
+        this.mapper = mapper;
     }
 
     public ValueTask<ProductResultDto> AddAsync(ProductCreateDto dto)
