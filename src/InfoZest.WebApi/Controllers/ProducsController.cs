@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InfoZest.WebApi.Controllers;
 
-public class ProducsController : BaseController
+public class ProductsController : BaseController
 {
-    public ProducsController(IServices services) : base(services) { }
+    public ProductsController(IServices services) : base(services) { }
 
     [HttpPost("create")]
     public async ValueTask<IActionResult> CreateAsync(ProductCreatioDto dto)
