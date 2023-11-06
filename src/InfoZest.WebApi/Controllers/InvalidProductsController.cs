@@ -14,15 +14,15 @@ public class InvalidProductsController : BaseController
     public async ValueTask<IActionResult> CreateAsync(InvalidProductCreationDto dto)
     => Ok(new Response { Data = await services.InvalidProductService.AddAsync(dto) });
 
-    [HttpPost("update")]
+    [HttpPut("update")]
     public async ValueTask<IActionResult> UpdateAsync(InvalidProductUpdateDto dto)
     => Ok(new Response { Data = await services.InvalidProductService.ModifyAsync(dto) });
 
-    [HttpPost("delete/{ id: long }")]
+    [HttpDelete("delete/{id:long}")]
     public async ValueTask<IActionResult> DeleteByIdAsync(long id)
     => Ok(new Response { Data = await services.InvalidProductService.RemoveAsync(id) });
 
-    [HttpPost("get/{ id: long }")]
+    [HttpGet("get/{id:long}")]
     public async ValueTask<IActionResult> GetByIdAsync(long id)
     => Ok(new Response { Data = await services.InvalidProductService.RetrieveByIdAsync(id) });
 

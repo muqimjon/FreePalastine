@@ -14,11 +14,11 @@ public class AssetsController : BaseController
     public async ValueTask<IActionResult> UpdateAsync(AssetUpdateDto dto)
     => Ok(new Response { Data = await services.AssetService.ModifyAsync(dto) });
 
-    [HttpPost("delete/{ id: long }")]
-    public async ValueTask<IActionResult> DeleteByIdAsync(long id)
+    [HttpDelete("delete/{id:long}")]
+    public async ValueTask<IActionResult> DeleteAsync(long id)
     => Ok(new Response { Data = await services.AssetService.RemoveAsync(id) });
 
-    [HttpPost("get/{ id: long }")]
+    [HttpGet("get/{id:long}")]
     public async ValueTask<IActionResult> GetByIdAsync(long id)
     => Ok(new Response { Data = await services.AssetService.RetrieveByIdAsync(id) });
 

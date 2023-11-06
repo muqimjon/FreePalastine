@@ -1,8 +1,8 @@
-﻿using InfoZest.Service.DTOs.Products;
+﻿using InfoZest.WebApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.Interfaces.Commons;
 using InfoZest.WebApi.Controllers.Commons;
-using InfoZest.WebApi.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace InfoZest.WebApi.Controllers;
 
@@ -18,11 +18,11 @@ public class ProductsController : BaseController
     public async ValueTask<IActionResult> UpdateAsync(ProductUpdateDto dto)
     => Ok(new Response { Data = await services.ProductService.ModifyAsync(dto) });
 
-    [HttpPost("delete/{ id: long }")]
+    [HttpPost("delete/{id:long}")]
     public async ValueTask<IActionResult> DeleteByIdAsync(long id)
     => Ok(new Response { Data = await services.ProductService.RemoveAsync(id) });
 
-    [HttpPost("get/{ id: long }")]
+    [HttpPost("get/{id:long}")]
     public async ValueTask<IActionResult> GetByIdAsync(long id)
     => Ok(new Response { Data = await services.ProductService.RetrieveByIdAsync(id) });
 
