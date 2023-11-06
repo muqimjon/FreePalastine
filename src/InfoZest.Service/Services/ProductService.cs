@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
-using InfoZest.DataAccess.IRepositories;
-using InfoZest.Service.DTOs.Products;
+using InfoZest.Domain.Entities;
+using Nabeey.Service.Exceptions;
 using InfoZest.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using InfoZest.Service.DTOs.Products;
+using InfoZest.DataAccess.IRepositories;
 
 namespace InfoZest.Service.Services;
 
@@ -15,28 +18,52 @@ public class ProductService : IProductService
         this.mapper = mapper;
     }
 
-    public ValueTask<ProductResultDto> AddAsync(ProductCreateDto dto)
+    public async ValueTask<ProductResultDto> AddAsync(ProductCreateDto dto)
     {
-        throw new NotImplementedException();
+        var existProduct = await unitOfWork.ProductRepository.SelectAsync(product =>
+            product.Name.Equals(dto.Name, StringComparison.OrdinalIgnoreCase) ||
+            product.BarCode.Equals(dto.BarCode, StringComparison.OrdinalIgnoreCase)) ;
+
+        if(existProduct is not null)
+            throw new AlreadyExistException("This Product is already excist");
+
+        var entity = mapper.Map<Product>(dto);
+        await unitOfWork.ProductRepository.InsertAsync(entity);
+        await unitOfWork.SaveAsync();
+        return mapper.Map<ProductResultDto>(entity);
     }
 
-    public ValueTask<ProductResultDto> ModifyAsync(ProductUpdateDto dto)
+    public async ValueTask<ProductResultDto> ModifyAsync(ProductUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(dto.Id)) ??
+            throw new NotFoundException($"This Product is not found with Id = {dto.Id}");
+
+        mapper.Map(dto, entity);
+        unitOfWork.ProductRepository.Update(entity);
+        await unitOfWork.SaveAsync();
+        return mapper.Map<ProductResultDto>(entity);
     }
 
-    public ValueTask<bool> RemoveAsync(long id)
+    public async ValueTask<bool> RemoveAsync(long id)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id)) ??
+            throw new NotFoundException($"This Product is not found with Id = {id}");
+
+        unitOfWork.ProductRepository.Destroy(entity);
+        return await unitOfWork.SaveAsync();
     }
 
-    public ValueTask<IEnumerable<ProductResultDto>> RetrieveAllAsync()
+    public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllAsync()
     {
-        throw new NotImplementedException();
+        var entities = await unitOfWork.ProductRepository.SelectAll().ToListAsync();
+        return mapper.Map<IEnumerable<ProductResultDto>>(entities);
     }
 
-    public ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
+    public async ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id)) ??
+            throw new NotFoundException($"This Product is not found with Id = {id}");
+
+        return mapper.Map<ProductResultDto>(entity);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InfoZest.DataAccess.IRepositories;
-using InfoZest.Service.DTOs.Assets;
 using InfoZest.Service.Interfaces;
+using InfoZest.Service.DTOs.Assets;
+using InfoZest.DataAccess.IRepositories;
 
 namespace InfoZest.Service.Services;
 

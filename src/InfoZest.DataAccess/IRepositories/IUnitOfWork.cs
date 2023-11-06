@@ -7,4 +7,5 @@ public interface IUnitOfWork : IDisposable
      IRepository<Asset> AssetRepository {  get; }
      IRepository<Product> ProductRepository {  get; }
      IRepository<InvalidProduct> InvalidProductRepository {  get; }
+     ValueTask<bool> SaveAsync();
 }

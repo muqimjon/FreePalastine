@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using InfoZest.Service.Interfaces;
 using InfoZest.DataAccess.IRepositories;
 using InfoZest.Service.DTOs.InvalidProducts;
-using InfoZest.Service.Interfaces;
 
 namespace InfoZest.Service.Services;
 
@@ -15,7 +15,7 @@ public class InvalidProductService : IInvalidProductService
         this.mapper = mapper;
     }
 
-    public ValueTask<InvalidProductResultDto> AddAsync(InvalidProductUpdateDto dto)
+    public ValueTask<InvalidProductResultDto> AddAsync(InvalidProductCreationDto dto)
     {
         throw new NotImplementedException();
     }
