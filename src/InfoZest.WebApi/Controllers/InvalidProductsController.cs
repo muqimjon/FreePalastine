@@ -1,7 +1,8 @@
-﻿using InfoZest.Service.Interfaces.Commons;
-using InfoZest.WebApi.Controllers.Commons;
-using InfoZest.WebApi.Models;
+﻿using InfoZest.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using InfoZest.WebApi.Controllers.Commons;
+using InfoZest.Service.Interfaces.Commons;
+using InfoZest.Service.DTOs.InvalidProducts;
 
 namespace InfoZest.WebApi.Controllers;
 
@@ -10,7 +11,7 @@ public class InvalidProductsController : BaseController
     public InvalidProductsController(IServices services) : base(services) { }
 
     [HttpPost("create")]
-    public async ValueTask<IActionResult> CreateAsync(InvalidProductCreatioDto dto)
+    public async ValueTask<IActionResult> CreateAsync(InvalidProductCreationDto dto)
     => Ok(new Response { Data = await services.InvalidProductService.AddAsync(dto) });
 
     [HttpPost("update")]
