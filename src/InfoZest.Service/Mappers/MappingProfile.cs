@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
 using InfoZest.Service.DTOs.Products;
-using InfoZest.Service.DTOs.InvalidProducts;
 using InfoZest.Service.DTOs.AssetsDto;
+using InfoZest.Service.DTOs.InvalidProducts;
 
 namespace InfoZest.Service.Mappers;
 
