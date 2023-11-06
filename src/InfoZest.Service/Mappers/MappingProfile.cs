@@ -3,6 +3,7 @@ using InfoZest.Domain.Entities;
 using InfoZest.Service.DTOs.Assets;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.DTOs.InvalidProducts;
+using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.Mappers;
 
@@ -13,6 +14,7 @@ public class MappingProfile : Profile
         // Asset
         CreateMap<Asset, AssetResultDto>();
         CreateMap<AssetUpdateDto, Asset>();
+        CreateMap<AssetCreationDto, Asset>();
 
         // Product
         CreateMap<Product, ProductResultDto>();
@@ -21,7 +23,7 @@ public class MappingProfile : Profile
 
         // Invalid Product
         CreateMap<InvalidProduct, InvalidProductResultDto>();
-        CreateMap<InvalidProductCreationDto, InvalidProduct>();
         CreateMap<InvalidProductUpdateDto, InvalidProduct>();
+        CreateMap<InvalidProductCreationDto, InvalidProduct>();
     }
 }

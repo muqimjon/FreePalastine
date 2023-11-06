@@ -21,11 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InfoZest.DataAccess\InfoZest.DataAccess.csproj" />
+    <ProjectReference Include="..\InfoZest.Service\InfoZest.Service.csproj" />
   </ItemGroup>
 
 </Project>
