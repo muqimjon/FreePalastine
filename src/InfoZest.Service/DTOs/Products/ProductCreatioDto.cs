@@ -1,6 +1,6 @@
 ﻿namespace InfoZest.Service.DTOs.Products;
 
-public class ProductCreateDto
+public class ProductCreatioDto
 {
     public string Name { get; set; }
     public string BarCode { get; set; }

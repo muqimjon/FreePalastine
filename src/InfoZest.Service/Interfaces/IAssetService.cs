@@ -1,10 +1,11 @@
-﻿using InfoZest.Service.DTOs.Assets;
+﻿using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.Interfaces;
 
 public interface IAssetService
 {
+    ValueTask<AssetResultDto> AddAsync(AssetCreationDto dto);
     ValueTask<AssetResultDto> ModifyAsync(AssetUpdateDto dto);
     ValueTask<AssetResultDto> RetrieveByIdAsync(long id);
-    ValueTask<IEnumerable<AssetUpdateDto>> GetAllAsync();
+    ValueTask<IEnumerable<AssetResultDto>> RetrieveAllAsync();
 }

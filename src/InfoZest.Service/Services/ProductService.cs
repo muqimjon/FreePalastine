@@ -18,7 +18,7 @@ public class ProductService : IProductService
         this.mapper = mapper;
     }
 
-    public async ValueTask<ProductResultDto> AddAsync(ProductCreateDto dto)
+    public async ValueTask<ProductResultDto> AddAsync(ProductCreatioDto dto)
     {
         var existProduct = await unitOfWork.ProductRepository.SelectAsync(product =>
             product.Name.Equals(dto.Name, StringComparison.OrdinalIgnoreCase) ||

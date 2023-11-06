@@ -1,6 +1,6 @@
-﻿namespace InfoZest.Service.DTOs.Assets;
+﻿namespace InfoZest.Service.DTOs.AssetsDto;
 
-public class AssetResultDto
+public class AssetCreationDto
 {
     public string FileName { get; set; }
     public string FilePath { get; set; }
