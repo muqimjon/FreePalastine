@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
-using InfoZest.Service.DTOs.Assets;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.DTOs.InvalidProducts;
 using InfoZest.Service.DTOs.AssetsDto;
