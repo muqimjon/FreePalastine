@@ -18,7 +18,7 @@ public class AssetService : IAssetService
         this.unitOfWork = unitOfWork;
     }
 
-    public async ValueTask<AssetResultDto> AddAsync(AssetCreationDto dto)
+    public async ValueTask<AssetResultDto> UploadAsync(AssetCreationDto dto)
     {
         var webRootPath = Path.Combine(PathHelper.WebRootPath, "image");
 

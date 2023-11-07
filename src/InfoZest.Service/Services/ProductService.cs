@@ -5,6 +5,7 @@ using InfoZest.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.DataAccess.IRepositories;
+using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.Services;
 
@@ -12,10 +13,12 @@ public class ProductService : IProductService
 {
     private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
-    public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly IAssetService assetService;
+    public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IAssetService assetService)
     {
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
+        this.assetService = assetService;
     }
 
     public async ValueTask<ProductResultDto> AddAsync(ProductCreatioDto dto)
@@ -28,6 +31,19 @@ public class ProductService : IProductService
             throw new AlreadyExistException("This Product is already excist");
 
         var entity = mapper.Map<Product>(dto);
+        if (dto.Image is not null)
+        {
+            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var createImage = new Asset()
+            {
+                FileName = uploadedImage.FileName,
+                FilePath = uploadedImage.FilePath,
+            };
+
+            entity.AssetId = uploadedImage.Id;
+            entity.Asset = createImage;
+        }
+
         await unitOfWork.ProductRepository.InsertAsync(entity);
         await unitOfWork.SaveAsync();
         return mapper.Map<ProductResultDto>(entity);
@@ -38,8 +54,24 @@ public class ProductService : IProductService
         var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(dto.Id)) ??
             throw new NotFoundException($"This Product is not found with Id = {dto.Id}");
 
+        if(entity.Asset is not null)
+            await assetService.RemoveAsync(entity.Asset.Id);
+
         mapper.Map(dto, entity);
-        unitOfWork.ProductRepository.Update(entity);
+        if (dto.Image is not null)
+        {
+            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var createImage = new Asset()
+            {
+                FileName = uploadedImage.FileName,
+                FilePath = uploadedImage.FilePath,
+            };
+
+            entity.AssetId = uploadedImage.Id;
+            entity.Asset = createImage;
+        }
+
+        await unitOfWork.ProductRepository.InsertAsync(entity);
         await unitOfWork.SaveAsync();
         return mapper.Map<ProductResultDto>(entity);
     }
@@ -48,6 +80,9 @@ public class ProductService : IProductService
     {
         var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id)) ??
             throw new NotFoundException($"This Product is not found with Id = {id}");
+
+        if (entity.Asset is not null)
+            await assetService.RemoveAsync(entity.Asset.Id);
 
         unitOfWork.ProductRepository.Destroy(entity);
         return await unitOfWork.SaveAsync();

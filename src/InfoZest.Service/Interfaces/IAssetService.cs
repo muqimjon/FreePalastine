@@ -4,6 +4,6 @@ namespace InfoZest.Service.Interfaces;
 
 public interface IAssetService
 {
-    ValueTask<AssetResultDto> AddAsync(AssetCreationDto dto);
+    ValueTask<AssetResultDto> UploadAsync(AssetCreationDto dto);
     ValueTask<bool> RemoveAsync(long id);
 }

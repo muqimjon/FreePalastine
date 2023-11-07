@@ -1,4 +1,4 @@
-﻿using InfoZest.Domain.Entities;
+﻿using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.DTOs.Products;
 
@@ -10,5 +10,5 @@ public class ProductResultDto
     public string Description { get; set; }
     public string Brand { get; set; }
     public string Country { get; set; }
-    public Asset Asset { get; set; }
+    public AssetResultDto Asset { get; set; }
 }
