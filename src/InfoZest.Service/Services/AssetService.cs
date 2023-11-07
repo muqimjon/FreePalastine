@@ -2,6 +2,7 @@
 using InfoZest.Domain.Entities;
 using Nabeey.Service.Exceptions;
 using InfoZest.Service.Interfaces;
+using InfoZest.Service.Extensions;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.AssetsDto;
 using InfoZest.DataAccess.IRepositories;
@@ -14,16 +15,48 @@ public class AssetService : IAssetService
     private readonly IUnitOfWork unitOfWork;
     public AssetService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        this.unitOfWork = unitOfWork;
         this.mapper = mapper;
+        this.unitOfWork = unitOfWork;
     }
 
     public async ValueTask<AssetResultDto> AddAsync(AssetCreationDto dto)
     {
-        var entity = mapper.Map<Asset>(dto);
-        await unitOfWork.AssetRepository.InsertAsync(entity);
+        var webRootPath = Path.Combine(PathHelper.WebRootPath, "Image");
+
+        if (!Directory.Exists(webRootPath))
+            Directory.CreateDirectory(webRootPath);
+
+        var fileExtention = Path.GetExtension(dto.FormFile.FileName);
+        var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtention}";
+        var filePath = Path.Combine(webRootPath, fileName);
+
+        var fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+        await fileStream.WriteAsync(dto.FormFile.ToByte());
+        await dto.FormFile.CopyToAsync(fileStream);
+
+        var imageUrl = $"{unitOfWork.HttpContextAccessor.HttpContext.Request.Scheme}://{unitOfWork.HttpContextAccessor.HttpContext.Request.Host}/image/{fileName}";
+
+        var asset = new Asset()
+        {
+            FileName = fileName,
+            FilePath = imageUrl,
+        };
+
+        await unitOfWork.AssetRepository.InsertAsync(asset);
         await unitOfWork.SaveAsync();
-        return mapper.Map<AssetResultDto>(entity);
+        return mapper.Map<AssetResultDto>(dto);
+    }
+
+    public async ValueTask<bool> RemoveAsync(Asset asset)
+    {
+        var entity = asset is null ? default :
+            await unitOfWork.AssetRepository.SelectAsync(a => a.Id.Equals(asset.Id));
+        
+        if (entity is null)
+            return false;
+
+        unitOfWork.AssetRepository.Destroy(entity);
+        return await unitOfWork.SaveAsync();
     }
 
     public async ValueTask<AssetResultDto> ModifyAsync(AssetUpdateDto dto)

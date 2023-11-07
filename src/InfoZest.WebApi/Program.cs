@@ -1,4 +1,5 @@
 using InfoZest.DataAccess.Contexts;
+using InfoZest.Service.Services;
 using InfoZest.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddServices();
 
 var app = builder.Build();
+
+PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 app.MigrateDatabase();
 

@@ -1,4 +1,6 @@
-﻿namespace InfoZest.Service.Interfaces.Commons;
+﻿using InfoZest.Service.DTOs.AssetsDto;
+
+namespace InfoZest.Service.Interfaces.Commons;
 
 public interface IMainService<TCreate, TUpdate, TResult>
 {
@@ -7,4 +9,6 @@ public interface IMainService<TCreate, TUpdate, TResult>
     ValueTask<bool> RemoveAsync(long id);
     ValueTask<IEnumerable<TResult>> RetrieveAllAsync();
     ValueTask<TResult> RetrieveByIdAsync(long id);
+    ValueTask<TResult> UploadPhoto(AssetCreationDto dto, long id);
+    ValueTask<TResult> ModifyPhoto(AssetCreationDto dto, long id);
 }
