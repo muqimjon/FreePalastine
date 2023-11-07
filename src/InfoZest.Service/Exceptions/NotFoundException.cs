@@ -1,4 +1,4 @@
-﻿namespace Nabeey.Service.Exceptions;
+﻿namespace InfoZest.Service.Exceptions;
 
 public class NotFoundException : Exception
 {

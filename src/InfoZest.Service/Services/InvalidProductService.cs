@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
-using Nabeey.Service.Exceptions;
+using InfoZest.Service.Exceptions;
 using InfoZest.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.DataAccess.IRepositories;
 using InfoZest.Service.DTOs.InvalidProducts;
+using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.Services;
 
@@ -43,6 +44,11 @@ public class InvalidProductService : IInvalidProductService
         return mapper.Map<InvalidProductResultDto>(entity);
     }
 
+    public ValueTask<InvalidProductResultDto> ModifyPhoto(AssetCreationDto dto, long id)
+    {
+        throw new NotImplementedException();
+    }
+
     public async ValueTask<bool> RemoveAsync(long id)
     {
         var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(id)) ??
@@ -54,13 +60,13 @@ public class InvalidProductService : IInvalidProductService
 
     public async ValueTask<IEnumerable<InvalidProductResultDto>> RetrieveAllAsync()
     {
-        var entities = await unitOfWork.InvalidProductRepository.SelectAll().ToListAsync();
+        var entities = await unitOfWork.InvalidProductRepository.SelectAll(includes: new[] { "Asset" }).ToListAsync();
         return mapper.Map<IEnumerable<InvalidProductResultDto>>(entities);
     }
 
     public async ValueTask<InvalidProductResultDto> RetrieveByIdAsync(long id)
     {
-        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(id)) ??
+        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(id), new[] { "Asset" }) ??
             throw new NotFoundException($"This InvalidProduct is not found with Id = {id}");
 
         return mapper.Map<InvalidProductResultDto>(entity);

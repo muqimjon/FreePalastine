@@ -1,4 +1,6 @@
-﻿namespace InfoZest.Service.DTOs.InvalidProducts;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace InfoZest.Service.DTOs.InvalidProducts;
 
 public class InvalidProductUpdateDto
 {
@@ -6,6 +8,6 @@ public class InvalidProductUpdateDto
     public bool IsBoycott { get; set; }
     public bool IsHaram { get; set; }
     public string Info { get; set; }
-    public long AssetId { get; set; }
+    public IFormFile Image { get; set; }
     public long ProductId { get; set; }
 }

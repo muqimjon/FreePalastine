@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
-using Nabeey.Service.Exceptions;
+using InfoZest.Service.Exceptions;
 using InfoZest.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.Products;
@@ -55,13 +55,13 @@ public class ProductService : IProductService
 
     public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllAsync()
     {
-        var entities = await unitOfWork.ProductRepository.SelectAll().ToListAsync();
+        var entities = await unitOfWork.ProductRepository.SelectAll(includes: new[] { "Asset" }).ToListAsync();
         return mapper.Map<IEnumerable<ProductResultDto>>(entities);
     }
 
     public async ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
     {
-        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id)) ??
+        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id), new[] { "Asset" }) ??
             throw new NotFoundException($"This Product is not found with Id = {id}");
 
         return mapper.Map<ProductResultDto>(entity);
