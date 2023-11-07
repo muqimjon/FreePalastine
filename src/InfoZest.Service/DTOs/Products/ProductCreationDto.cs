@@ -2,7 +2,7 @@
 
 namespace InfoZest.Service.DTOs.Products;
 
-public class ProductCreatioDto
+public class ProductCreationDto
 {
     public string Name { get; set; }
     public string BarCode { get; set; }

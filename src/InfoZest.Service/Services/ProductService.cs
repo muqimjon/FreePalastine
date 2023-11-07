@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
-using InfoZest.Service.Exceptions;
 using InfoZest.Service.Interfaces;
+using InfoZest.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.Products;
-using InfoZest.DataAccess.IRepositories;
 using InfoZest.Service.DTOs.AssetsDto;
+using InfoZest.DataAccess.IRepositories;
 
 namespace InfoZest.Service.Services;
 
@@ -21,7 +21,7 @@ public class ProductService : IProductService
         this.assetService = assetService;
     }
 
-    public async ValueTask<ProductResultDto> AddAsync(ProductCreatioDto dto)
+    public async ValueTask<ProductResultDto> AddAsync(ProductCreationDto dto)
     {
         var existProduct = await unitOfWork.ProductRepository.SelectAsync(product =>
             product.Name.Equals(dto.Name, StringComparison.OrdinalIgnoreCase) ||

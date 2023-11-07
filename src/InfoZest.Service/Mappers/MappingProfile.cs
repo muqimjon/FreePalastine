@@ -17,7 +17,7 @@ public class MappingProfile : Profile
         // Product
         CreateMap<Product, ProductResultDto>();
         CreateMap<ProductUpdateDto, Product>();
-        CreateMap<ProductCreatioDto, Product>();
+        CreateMap<ProductCreationDto, Product>();
 
         // Invalid Product
         CreateMap<InvalidProduct, InvalidProductResultDto>();

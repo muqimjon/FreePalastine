@@ -16,7 +16,7 @@ public class ProductsController : BaseController
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost("create")]
-    public async ValueTask<IActionResult> CreateAsync(ProductCreatioDto dto)
+    public async ValueTask<IActionResult> CreateAsync(ProductCreationDto dto)
     => Ok(new Response { Data = await services.ProductService.AddAsync(dto)});
 
     /// <summary>

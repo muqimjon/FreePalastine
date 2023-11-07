@@ -3,9 +3,9 @@ using InfoZest.Domain.Entities;
 using InfoZest.Service.Exceptions;
 using InfoZest.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using InfoZest.Service.DTOs.AssetsDto;
 using InfoZest.DataAccess.IRepositories;
 using InfoZest.Service.DTOs.InvalidProducts;
-using InfoZest.Service.DTOs.AssetsDto;
 
 namespace InfoZest.Service.Services;
 
@@ -13,21 +13,36 @@ public class InvalidProductService : IInvalidProductService
 {
     private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
-    public InvalidProductService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly IAssetService assetService;
+    public InvalidProductService(IUnitOfWork unitOfWork, IMapper mapper, IAssetService assetService)
     {
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
+        this.assetService = assetService;
     }
 
     public async ValueTask<InvalidProductResultDto> AddAsync(InvalidProductCreationDto dto)
     {
-        var existInvalidProduct = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct =>
-            InvalidProduct.ProductId.Equals(dto.ProductId));
+        var existInvalidProduct = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct =>
+            invalidProduct.ProductId.Equals(dto.ProductId));
 
         if (existInvalidProduct is not null)
             throw new AlreadyExistException("This InvalidProduct is already excist");
 
         var entity = mapper.Map<InvalidProduct>(dto);
+        if (dto.Image is not null)
+        {
+            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var createImage = new Asset()
+            {
+                FileName = uploadedImage.FileName,
+                FilePath = uploadedImage.FilePath,
+            };
+
+            entity.AssetId = uploadedImage.Id;
+            entity.Asset = createImage;
+        }
+
         await unitOfWork.InvalidProductRepository.InsertAsync(entity);
         await unitOfWork.SaveAsync();
         return mapper.Map<InvalidProductResultDto>(entity);
@@ -35,24 +50,38 @@ public class InvalidProductService : IInvalidProductService
 
     public async ValueTask<InvalidProductResultDto> ModifyAsync(InvalidProductUpdateDto dto)
     {
-        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(dto.Id)) ??
+        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct => invalidProduct.Id.Equals(dto.Id)) ??
             throw new NotFoundException($"This InvalidProduct is not found with Id = {dto.Id}");
 
+        if (entity.Asset is not null)
+            await assetService.RemoveAsync(entity.Asset.Id);
+
         mapper.Map(dto, entity);
-        unitOfWork.InvalidProductRepository.Update(entity);
+        if (dto.Image is not null)
+        {
+            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var createImage = new Asset()
+            {
+                FileName = uploadedImage.FileName,
+                FilePath = uploadedImage.FilePath,
+            };
+
+            entity.AssetId = uploadedImage.Id;
+            entity.Asset = createImage;
+        }
+
+        await unitOfWork.InvalidProductRepository.InsertAsync(entity);
         await unitOfWork.SaveAsync();
         return mapper.Map<InvalidProductResultDto>(entity);
     }
 
-    public ValueTask<InvalidProductResultDto> ModifyPhoto(AssetCreationDto dto, long id)
-    {
-        throw new NotImplementedException();
-    }
-
     public async ValueTask<bool> RemoveAsync(long id)
     {
-        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(id)) ??
+        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct => invalidProduct.Id.Equals(id)) ??
             throw new NotFoundException($"This InvalidProduct is not found with Id = {id}");
+
+        if (entity.Asset is not null)
+            await assetService.RemoveAsync(entity.Asset.Id);
 
         unitOfWork.InvalidProductRepository.Destroy(entity);
         return await unitOfWork.SaveAsync();
@@ -66,7 +95,7 @@ public class InvalidProductService : IInvalidProductService
 
     public async ValueTask<InvalidProductResultDto> RetrieveByIdAsync(long id)
     {
-        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(InvalidProduct => InvalidProduct.Id.Equals(id), new[] { "Asset" }) ??
+        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct => invalidProduct.Id.Equals(id), new[] { "Asset" }) ??
             throw new NotFoundException($"This InvalidProduct is not found with Id = {id}");
 
         return mapper.Map<InvalidProductResultDto>(entity);

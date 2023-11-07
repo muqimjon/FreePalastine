@@ -3,4 +3,4 @@ using InfoZest.Service.Interfaces.Commons;
 
 namespace InfoZest.Service.Interfaces;
 
-public interface IProductService : IMainService<ProductCreatioDto, ProductUpdateDto, ProductResultDto> { }
+public interface IProductService : IMainService<ProductCreationDto, ProductUpdateDto, ProductResultDto> { }
