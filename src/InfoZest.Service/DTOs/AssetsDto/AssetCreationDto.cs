@@ -1,7 +1,8 @@
-﻿namespace InfoZest.Service.DTOs.AssetsDto;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace InfoZest.Service.DTOs.AssetsDto;
 
 public class AssetCreationDto
 {
-    public string FileName { get; set; }
-    public string FilePath { get; set; }
+    public IFormFile FormFile { get; set; }
 }
