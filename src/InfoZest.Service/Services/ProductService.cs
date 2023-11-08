@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.DTOs.AssetsDto;
 using InfoZest.DataAccess.IRepositories;
+using InfoZest.Service.Extensions;
 
 namespace InfoZest.Service.Services;
 
@@ -24,13 +25,13 @@ public class ProductService : IProductService
     public async ValueTask<ProductResultDto> AddAsync(ProductCreationDto dto)
     {
         var existProduct = await unitOfWork.ProductRepository.SelectAsync(product =>
-            product.Name.Equals(dto.Name, StringComparison.OrdinalIgnoreCase) ||
-            product.BarCode.Equals(dto.BarCode, StringComparison.OrdinalIgnoreCase)) ;
+            product.Name.Equals(dto.Name) ||
+            product.BarCode.Equals(dto.BarCode)) ;
 
         if(existProduct is not null)
             throw new AlreadyExistException("This Product is already excist");
 
-        var entity = mapper.Map<Product>(dto);
+        var entity = Mapper<Product>.Map(dto);
         if (dto.Image is not null)
         {
             var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
@@ -96,7 +97,9 @@ public class ProductService : IProductService
 
     public async ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
     {
-        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id), new[] { "Asset" }) ??
+        Console.WriteLine(id);
+
+        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id == id, new[] { "Asset" }) ??
             throw new NotFoundException($"This Product is not found with Id = {id}");
 
         return mapper.Map<ProductResultDto>(entity);

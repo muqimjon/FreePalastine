@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InfoZest.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231105204901_InitialMigration")]
+    [Migration("20231108114118_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -37,11 +37,9 @@ namespace InfoZest.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FileName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
@@ -70,7 +68,6 @@ namespace InfoZest.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Info")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsBoycott")
@@ -90,9 +87,11 @@ namespace InfoZest.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetId");
+                    b.HasIndex("AssetId")
+                        .IsUnique();
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("InvalidProducts");
                 });
@@ -109,29 +108,24 @@ namespace InfoZest.DataAccess.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("BarCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Brand")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -139,7 +133,8 @@ namespace InfoZest.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetId");
+                    b.HasIndex("AssetId")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -147,14 +142,12 @@ namespace InfoZest.DataAccess.Migrations
             modelBuilder.Entity("InfoZest.Domain.Entities.InvalidProduct", b =>
                 {
                     b.HasOne("InfoZest.Domain.Entities.Asset", "Asset")
-                        .WithMany()
-                        .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne()
+                        .HasForeignKey("InfoZest.Domain.Entities.InvalidProduct", "AssetId");
 
                     b.HasOne("InfoZest.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .WithOne()
+                        .HasForeignKey("InfoZest.Domain.Entities.InvalidProduct", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -166,10 +159,8 @@ namespace InfoZest.DataAccess.Migrations
             modelBuilder.Entity("InfoZest.Domain.Entities.Product", b =>
                 {
                     b.HasOne("InfoZest.Domain.Entities.Asset", "Asset")
-                        .WithMany()
-                        .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne()
+                        .HasForeignKey("InfoZest.Domain.Entities.Product", "AssetId");
 
                     b.Navigation("Asset");
                 });

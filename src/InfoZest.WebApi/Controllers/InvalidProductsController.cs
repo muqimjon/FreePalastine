@@ -11,11 +11,11 @@ public class InvalidProductsController : BaseController
     public InvalidProductsController(IServices services) : base(services) { }
 
     [HttpPost("create")]
-    public async ValueTask<IActionResult> CreateAsync(InvalidProductCreationDto dto)
+    public async ValueTask<IActionResult> CreateAsync([FromForm] InvalidProductCreationDto dto)
     => Ok(new Response { Data = await services.InvalidProductService.AddAsync(dto) });
 
     [HttpPut("update")]
-    public async ValueTask<IActionResult> UpdateAsync(InvalidProductUpdateDto dto)
+    public async ValueTask<IActionResult> UpdateAsync([FromForm] InvalidProductUpdateDto dto)
     => Ok(new Response { Data = await services.InvalidProductService.ModifyAsync(dto) });
 
     [HttpDelete("delete/{id:long}")]

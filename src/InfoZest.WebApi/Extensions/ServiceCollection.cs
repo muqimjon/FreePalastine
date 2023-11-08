@@ -19,5 +19,6 @@ public static class ServiceCollection
         services.AddScoped<IAssetService, AssetService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IInvalidProductService, InvalidProductService>();
+        services.AddHttpContextAccessor();
     }
 }

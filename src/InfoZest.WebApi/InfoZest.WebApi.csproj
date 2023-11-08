@@ -26,4 +26,8 @@
     <ProjectReference Include="..\InfoZest.Service\InfoZest.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,6 @@ public class MappingProfile : Profile
     {
         // Asset
         CreateMap<Asset, AssetResultDto>();
-        CreateMap<AssetCreationDto, Asset>();
 
         // Product
         CreateMap<Product, ProductResultDto>();

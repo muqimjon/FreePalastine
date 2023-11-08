@@ -16,7 +16,7 @@ public class ProductsController : BaseController
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost("create")]
-    public async ValueTask<IActionResult> CreateAsync(ProductCreationDto dto)
+    public async ValueTask<IActionResult> CreateAsync([FromForm] ProductCreationDto dto)
     => Ok(new Response { Data = await services.ProductService.AddAsync(dto)});
 
     /// <summary>
@@ -24,8 +24,8 @@ public class ProductsController : BaseController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [HttpPost("update")]
-    public async ValueTask<IActionResult> UpdateAsync(ProductUpdateDto dto)
+    [HttpPut("update")]
+    public async ValueTask<IActionResult> UpdateAsync([FromForm] ProductUpdateDto dto)
     => Ok(new Response { Data = await services.ProductService.ModifyAsync(dto) });
 
     /// <summary>
@@ -33,7 +33,7 @@ public class ProductsController : BaseController
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpPost("delete/{id:long}")]
+    [HttpDelete("delete/{id:long}")]
     public async ValueTask<IActionResult> DeleteByIdAsync(long id)
     => Ok(new Response { Data = await services.ProductService.RemoveAsync(id) });
 
@@ -42,7 +42,7 @@ public class ProductsController : BaseController
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpPost("get/{id:long}")]
+    [HttpGet("get/{id:long}")]
     public async ValueTask<IActionResult> GetByIdAsync(long id)
     => Ok(new Response { Data = await services.ProductService.RetrieveByIdAsync(id) });
 
