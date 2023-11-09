@@ -4,6 +4,8 @@ name: Presentation
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
 # dockerize
@@ -21,7 +23,7 @@ jobs:
       - name: Setup .NET 7
         uses: actions/setup-dotnet@v3
       - name: Build Docker image
-        run: docker build -t $USERNAME/$REPOSITORY -f .\src\InfoZest.WebApi\Dockerfile .
+        run: docker build -t $USERNAME/$REPOSITORY -f src/InfoZest.WebApi/Dockerfile .
       - name: Login to Docker account
         run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
       - name: Push Docker image
