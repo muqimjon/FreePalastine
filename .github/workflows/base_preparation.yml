@@ -1,4 +1,4 @@
-name: .Preparation
+name: Preparation
 
 on:
   push:
