@@ -4,8 +4,6 @@ name: Presentation
 on:
   pull_request:
     branches: [ "main" ]
-  push:
-    branches: [ "main" ]
 
 jobs:
 # dockerize
@@ -34,18 +32,14 @@ jobs:
     name: Deploy
     needs: dockerize
     runs-on: ubuntu-latest
-    env:
-      HOST: ${{ secrets.SERVER_HOST }}
-      USERNAME: ${{ secrets.SERVER_USERNAME }}
-      SSH: ${{ secrets.SERVER_SSH_KEY }}
 
     steps:
       - name: SSH into AWS Ubuntu Server
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: $HOST
-          username: $USERNAME
-          key: $SSH
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
             cd ~/app
