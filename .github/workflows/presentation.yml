@@ -1,0 +1,50 @@
+# setup
+name: .Presentation
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+# dockerize
+  dockerize:
+    name: Dockerize
+    runs-on: ubuntu-latest
+    env:
+      USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      REPOSITORY: ${{ secrets.DOCKER_REPOSITORY}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v3
+      - name: Build Docker image
+        run: docker build -t $USERNAME/$REPOSITORY -f .\src\InfoZest.WebApi\Dockerfile .
+      - name: Login to Docker account
+        run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
+      - name: Push Docker image
+        run: docker push $USERNAME/$REPOSITORY
+
+# deploy
+  deploy:
+    name: Deploy
+    needs: dockerize
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{ secrets.SERVER_HOST }}
+      USERNAME: ${{ secrets.SERVER_USERNAME }}
+      SSH: ${{ secrets.SERVER_SSH_KEY }}
+
+    steps:
+      - name: SSH into AWS Ubuntu Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $SSH
+          port: 22
+          script: |
+            cd ~/app
+            docker-compose up -d
