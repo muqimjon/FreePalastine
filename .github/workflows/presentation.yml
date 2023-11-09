@@ -1,9 +1,9 @@
 # setup
-name: .Presentation
+name: Presentation
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
 # dockerize
