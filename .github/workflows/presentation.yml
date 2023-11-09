@@ -1,14 +1,12 @@
 # setup
-name: .NET
+name: .Presentation
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
-# dockerize
 jobs:
+# dockerize
   dockerize:
     name: Dockerize
     runs-on: ubuntu-latest
@@ -28,3 +26,25 @@ jobs:
         run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
       - name: Push Docker image
         run: docker push $USERNAME/$REPOSITORY
+
+# deploy
+  deploy:
+    name: Deploy
+    needs: dockerize
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{ secrets.SERVER_HOST }}
+      USERNAME: ${{ secrets.SERVER_USERNAME }}
+      SSH: ${{ secrets.SERVER_SSH_KEY }}
+
+    steps:
+      - name: SSH into AWS Ubuntu Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $SSH
+          port: 22
+          script: |
+            cd ~/app
+            docker-compose up -d
