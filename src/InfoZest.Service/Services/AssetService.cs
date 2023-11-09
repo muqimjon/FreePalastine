@@ -44,7 +44,7 @@ public class AssetService : IAssetService
 
         await unitOfWork.AssetRepository.InsertAsync(asset);
         await unitOfWork.SaveAsync();
-        return mapper.Map<AssetResultDto>(dto);
+        return mapper.Map<AssetResultDto>(asset);
     }
 
     public async ValueTask<bool> RemoveAsync(long id)
