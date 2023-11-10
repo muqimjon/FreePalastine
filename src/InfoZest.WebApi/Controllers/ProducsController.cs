@@ -53,4 +53,22 @@ public class ProductsController : BaseController
     [HttpGet("get-all")]
     public async ValueTask<IActionResult> GetAllAsync()
     => Ok(new Response { Data = await services.ProductService.RetrieveAllAsync()});
+
+    /// <summary>
+    /// Get products by name
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("get-by-name/{name}")]
+    public async ValueTask<IActionResult> GetAllByNameAsync(string name)
+    => Ok(new Response { Data = await services.ProductService.RetrieveAllByNameAsync(name)});
+    
+    /// <summary>
+    /// Get products by country
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("get-by-country/{country}")]
+    public async ValueTask<IActionResult> GetAllByCountryAsync(string country)
+    => Ok(new Response { Data = await services.ProductService.RetrieveAllByCountryAsync(country)});
+
+
 }
