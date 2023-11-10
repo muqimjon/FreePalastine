@@ -95,6 +95,18 @@ public class ProductService : IProductService
         return mapper.Map<IEnumerable<ProductResultDto>>(entities);
     }
 
+    public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllByCountryAsync(string country)
+    {
+        var filteredProducts = await unitOfWork.ProductRepository.SelectAll(product => product.Country.Contains(country, StringComparison.OrdinalIgnoreCase), includes: new[] { "Asset" }).ToListAsync();
+        return mapper.Map<IEnumerable<ProductResultDto>>(filteredProducts);
+    }
+
+    public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllByNameAsync(string name)
+    {
+        var filteredProducts = await unitOfWork.ProductRepository.SelectAll(product => product.Name.Equals(name, StringComparison.OrdinalIgnoreCase), includes: new[] { "Asset" }).ToListAsync();
+        return mapper.Map<IEnumerable<ProductResultDto>>(filteredProducts);
+    }
+
     public async ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
     {
         Console.WriteLine(id);
