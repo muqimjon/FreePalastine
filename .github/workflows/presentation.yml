@@ -43,7 +43,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
-            sudo su
             cd ~/app
             docker-compose down
             docker rmi $REPOSITORY
