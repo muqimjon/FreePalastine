@@ -1,2 +1,2 @@
-# FreePalastine
+# FreePalestine
 Products information app
