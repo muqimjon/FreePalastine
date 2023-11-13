@@ -1,6 +1,21 @@
 ﻿using InfoZest.Domain.Commons;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace InfoZest.Domain.Entities;
+
+public class IHttpActionResultController : ApiController
+{
+
+    [SwaggerResponse((int)HttpStatusCode.OK, "List of customers", typeof(IEnumerable<int>))]
+    [SwaggerResponse((int)HttpStatusCode.NotFound, Type = typeof(NotFoundResult))]
+    public IHttpActionResult Post(Product data)
+    {
+        throw new NotImplementedException();
+    }
+}
 
 /// <summary>
 /// Product
