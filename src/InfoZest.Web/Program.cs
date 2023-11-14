@@ -1,19 +1,21 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
+using InfoZest.Web.Exstention;
+using Microsoft.EntityFrameworkCore;
+using InfoZest.DataAccess.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IUrlHelper>(x =>
-{
-    var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
-    var factory = x.GetRequiredService<IUrlHelperFactory>();
+builder.Services.AddServices();
 
-    return factory.GetUrlHelper(actionContext);
-});
+
+builder.Services.AddDbContext<AppDbContext>(options => options
+                .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 var app = builder.Build();
 
