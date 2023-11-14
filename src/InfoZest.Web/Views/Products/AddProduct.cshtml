@@ -1,0 +1,96 @@
+﻿
+
+
+<style>
+    label {
+        color: #B4A5A5;
+    }
+</style>
+
+<div class="app-content">
+    <div class="app-content-header">
+        <h1 class="app-content-headerText">Products</h1>
+        <button class="mode-switch" title="Switch Theme">
+            <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+                <defs></defs>
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="app-content-actions">
+        <div class="app-content-actions-wrapper">
+            <div class="filter-button-wrapper">
+                <p class="filter jsFilter">
+                </p>
+            </div>
+            
+            <p class="list active"></p>
+            <p class="grid"></p>
+        </div>
+    </div>
+</div>
+
+<div class="container justify-content-center " style="padding:40px">
+    <div class="row">
+        <label for="form75">Upload image</label>
+        <label for="images" class="drop-container" id="dropcontainer">
+            <span class="drop-title">Drop files here</span>
+            or
+            <input type="file" id="images" accept="image/*" required>
+        </label>
+    </div>
+
+    <div class="row">
+        <div class="col col-form-label">
+            <label for="form75">Product name</label>
+            <input class="form-control form-control-lg" type="text" >
+        </div>
+
+        <div class="col col-form-label">
+            <label for="form75">BarCode</label>
+
+            <input class="form-control form-control-lg" type="text" >
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-form-label">
+            <label for="form75">Brand</label>
+            <input class="form-control form-control-lg" type="text">
+        </div>
+
+        <div class="col col-form-label">
+            <label for="form75">Country</label>
+            <input class="form-control form-control-lg" type="text">
+        </div>
+    </div>
+
+    <div class="col col-form-label md-form md-outline">
+        <label for="form75">Description</label>
+        <textarea id="form75" class="md-textarea form-control" rows="3"></textarea>
+    </div>
+
+    <div class="row">
+        <div class="col col-form-label-sm custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+            <label class="custom-control-label" for="customSwitch1">IsHaram</label>
+        </div>
+
+        <!-- Default checked -->
+        <div class="col col-form-label-sm custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+            <label class="custom-control-label" for="customSwitch1">IsBaykot</label>
+        </div>
+    </div>
+
+    <div class="col col-form-label md-form md-outline">
+        <label for="form75" class="text-white">Info</label>
+        <textarea id="form75" class="md-textarea form-control" rows="3"></textarea>
+    </div>
+
+    <div class="col">
+        <button type="submit" class="btn btn-dark position-absolute bottom-25 end-25">Back</button>
+        <button type="submit" class="btn btn-success position-absolute bottom-25 end-0" style="margin-right:50px">Save</button>
+    </div>
+</div>
+
