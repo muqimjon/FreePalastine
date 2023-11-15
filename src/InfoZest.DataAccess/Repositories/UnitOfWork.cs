@@ -17,7 +17,6 @@ public class UnitOfWork : IUnitOfWork
         InvalidProductRepository = new Repository<InvalidProduct>(appDbContext);
         Dispose();
     }
-
     public IRepository<Asset> AssetRepository { get; }
     public IRepository<Product> ProductRepository { get; }
     public IHttpContextAccessor HttpContextAccessor { get; }  
