@@ -1,4 +1,8 @@
-﻿<!-- partial:index.partial.html -->
+﻿@using InfoZest.Web.Models.Products;
+<!-- partial:index.partial.html -->
+
+@model List<ProductViewModel>
+
 
 <div class="app-content">
     <div class="app-content-header">
@@ -105,28 +109,31 @@
             </button>
         </div>
     </div>
-    <div class="products-row">
-        <button class="cell-more-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></svg>
-        </button>
-        <div class="product-cell image">
-            <img src="https://trashbox.ru/files/1395920_f71c77/0.jpg" alt="product">
-            <span>Coca-Cola</span>
+    @foreach(var product in Model)
+    {
+        <div class="products-row">
+            <button class="cell-more-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></svg>
+            </button>
+            <div class="product-cell image">
+                <img src="~/image/@product.FIleName" alt="product">
+                <span>@product.Name</span>
+            </div>
+            <div class="product-cell category"><span class="cell-label">BarCode</span>@product.BarCode</div>
+            <div class="product-cell category"><span class="cell-label">Brand</span>@product.Brand</div>
+            <div class="product-cell category"><span class="cell-label">Description</span>@product.Description</div>
+            <div class="product-cell category"><span class="cell-label">Country</span>@product.Country</div>
+            <div class="product-cell status-cell">
+                <span class="cell-label">IsBaycot</span>
+                <span class="status active">@product.IsBoykott</span>
+            </div>
+            <div class="product-cell status-cell">
+                <span class="cell-label">IsHaram</span>
+                <span class="status disabled">@product.IsHaram</span>
+            </div>
+            <div class="product-cell category"><span class="cell-label">Info:</span>@product.Info</div>
         </div>
-        <div class="product-cell category"><span class="cell-label">BarCode</span>0026102116845</div>
-        <div class="product-cell category"><span class="cell-label">Brand</span>Coca Cola</div>
-        <div class="product-cell category"><span class="cell-label">Description</span>Ichimlik</div>
-        <div class="product-cell category"><span class="cell-label">Country</span>AQSH</div>
-        <div class="product-cell status-cell">
-            <span class="cell-label">IsBaycot</span>
-            <span class="status active">TRUE</span>
-        </div>
-        <div class="product-cell status-cell">
-            <span class="cell-label">IsHaram</span>
-            <span class="status disabled">False</span>
-        </div>
-        <div class="product-cell category"><span class="cell-label">Info:</span>Info</div>
-    </div>
+    }
 </div>
 
 <script type="text/javascript"
