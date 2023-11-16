@@ -28,7 +28,7 @@ namespace InfoZest.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProduct(ProductCreationModel model, IFormFile file)
+        public async Task<IActionResult> AddProduct(ProductCreationModel model, IFormFile file)
         {
             var productCreationDto = new ProductCreationDto
             {
@@ -37,17 +37,23 @@ namespace InfoZest.Web.Controllers
                 Brand = model.Brand,
                 Country = model.Country,
                 Description = model.Description,
-                Image = model.formFile,
+                Image = file,
             };
 
-            var productResultDto = services.ProductService.AddAsync(productCreationDto);
+            var productResultDto = await services.ProductService.AddAsync(productCreationDto);
 
             if(model.IsBoycott is true || model.IsHaram is true) 
             {
                 var invalidProductCreationDto = new InvalidProductCreationDto
                 {
-
+                    Image = file,
+                    IsBoycott = model.IsBoycott,
+                    Info = model.Info,
+                    IsHaram = model.IsHaram,
+                    ProductId = productResultDto.Id
                 }; 
+
+                await services.InvalidProductService.AddAsync(invalidProductCreationDto);
             }
             return View();
         }
