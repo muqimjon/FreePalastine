@@ -1,11 +1,10 @@
-﻿using InfoZest.Service.DTOs.AssetsDto;
-using InfoZest.Service.DTOs.InvalidProducts;
+﻿using InfoZest.Service.DTOs.InvalidProducts;
 using InfoZest.Service.DTOs.Products;
-using InfoZest.Service.Interfaces.Commons;
-using InfoZest.Service.Services.Commons;
-using InfoZest.Web.Models;
-using InfoZest.Web.Models.Products;
+using InfoZest.Web.Models; 
 using Microsoft.AspNetCore.Mvc;
+using InfoZest.Web.Models.Products;
+using InfoZest.Service.Interfaces.Commons;
+using InfoZest.Domain.Entities;
 
 namespace InfoZest.Web.Controllers
 {
@@ -17,9 +16,49 @@ namespace InfoZest.Web.Controllers
             this.services = services;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await services.ProductService.RetrieveAllAsync();
+            var invalidProducts = await services.InvalidProductService.RetrieveAllAsync();
+
+            var invalidProductIds = invalidProducts.Select(m => m.Product.Id).ToList();
+
+            var tengEmasModellar = products.Where(m => !invalidProductIds.Contains(m.Id)).ToList();
+
+            List<ProductViewModel> productViewModels = new();
+
+            foreach(var invalidProduct in invalidProducts)
+            {
+                var productViewModel = new ProductViewModel
+                {
+                    Name = invalidProduct.Product.Name,
+                    BarCode = invalidProduct.Product.BarCode,
+                    Brand = invalidProduct.Product.Brand,
+                    Country = invalidProduct.Product.Country,
+                    Description = invalidProduct.Product.Description,
+                    Info = invalidProduct.Info,
+                    IsBoykott = invalidProduct.IsBoycott,
+                    IsHaram = invalidProduct.IsHaram,
+                    FIleName = invalidProduct.Asset.FileName,
+
+                };
+                productViewModels.Add(productViewModel);
+            }
+            foreach(var model in tengEmasModellar)
+            {
+                var productViewModel = new ProductViewModel
+                {
+                    Name = model.Name,
+                    BarCode = model.BarCode,
+                    Brand = model.Brand,
+                    Country = model.Country,
+                    Description = model.Description,
+                    FIleName = model.Asset.FileName,
+                };
+                productViewModels.Add(productViewModel);
+            }
+
+            return View(productViewModels);
         }
 
         public IActionResult AddProduct()
@@ -42,7 +81,7 @@ namespace InfoZest.Web.Controllers
 
             var productResultDto = await services.ProductService.AddAsync(productCreationDto);
 
-            if(model.IsBoycott is true || model.IsHaram is true) 
+            if (model.IsBoycott is true || model.IsHaram is true)
             {
                 var invalidProductCreationDto = new InvalidProductCreationDto
                 {
@@ -51,7 +90,7 @@ namespace InfoZest.Web.Controllers
                     Info = model.Info,
                     IsHaram = model.IsHaram,
                     ProductId = productResultDto.Id
-                }; 
+                };
 
                 await services.InvalidProductService.AddAsync(invalidProductCreationDto);
             }
