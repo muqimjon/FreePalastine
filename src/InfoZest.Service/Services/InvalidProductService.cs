@@ -54,7 +54,7 @@ public class InvalidProductService : IInvalidProductService
 
     public async ValueTask<IEnumerable<InvalidProductResultDto>> RetrieveAllAsync()
     {
-        var entities = await unitOfWork.InvalidProductRepository.SelectAll(includes: new[] { "Asset" }).ToListAsync();
+        var entities = await unitOfWork.InvalidProductRepository.SelectAll(includes: new[] { "Asset","Product" }).ToListAsync();
         return mapper.Map<IEnumerable<InvalidProductResultDto>>(entities);
     }
 
