@@ -8,6 +8,5 @@ public class InvalidProductUpdateDto
     public bool IsBoycott { get; set; }
     public bool IsHaram { get; set; }
     public string Info { get; set; } = string.Empty;
-    public IFormFile? Image { get; set; }
     public long ProductId { get; set; }
 }

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using InfoZest.Domain.Entities;
 using InfoZest.Service.Interfaces;
+using InfoZest.Service.Extensions;
 using InfoZest.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using InfoZest.Service.DTOs.Products;
 using InfoZest.Service.DTOs.AssetsDto;
 using InfoZest.DataAccess.IRepositories;
-using InfoZest.Service.Extensions;
 
 namespace InfoZest.Service.Services;
 
@@ -24,9 +24,10 @@ public class ProductService : IProductService
 
     public async ValueTask<ProductResultDto> AddAsync(ProductCreationDto dto)
     {
-        var existProduct = await unitOfWork.ProductRepository.SelectAsync(product =>
-            product.Name.Equals(dto.Name) ||
-            product.BarCode.Equals(dto.BarCode)) ;
+        var existProduct = await unitOfWork.ProductRepository
+            .SelectAsync(product 
+            => product.Name.Equals(dto.Name)
+            || product.BarCode.Equals(dto.BarCode));
 
         if(existProduct is not null)
             throw new AlreadyExistException("This Product is already excist");
@@ -34,7 +35,8 @@ public class ProductService : IProductService
         var entity = Mapper<Product>.Map(dto);
         if (dto.Image is not null)
         {
-            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var uploadedImage = await this.assetService
+                .UploadAsync(new AssetCreationDto { FormFile = dto.Image });
             var createImage = new Asset()
             {
                 FileName = uploadedImage.FileName,
@@ -52,8 +54,10 @@ public class ProductService : IProductService
 
     public async ValueTask<ProductResultDto> ModifyAsync(ProductUpdateDto dto)
     {
-        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(dto.Id)) ??
-            throw new NotFoundException($"This Product is not found with Id = {dto.Id}");
+        var entity = await unitOfWork.ProductRepository
+            .SelectAsync(product => product.Id
+            .Equals(dto.Id))
+            ?? throw new NotFoundException($"This Product is not found with Id = {dto.Id}");
 
         if(entity.Asset is not null)
             await assetService.RemoveAsync(entity.Asset.Id);
@@ -61,7 +65,9 @@ public class ProductService : IProductService
         mapper.Map(dto, entity);
         if (dto.Image is not null)
         {
-            var uploadedImage = await this.assetService.UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+            var uploadedImage = await this.assetService
+                .UploadAsync(new AssetCreationDto { FormFile = dto.Image });
+
             var createImage = new Asset()
             {
                 FileName = uploadedImage.FileName,
@@ -79,8 +85,9 @@ public class ProductService : IProductService
 
     public async ValueTask<bool> RemoveAsync(long id)
     {
-        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id.Equals(id)) ??
-            throw new NotFoundException($"This Product is not found with Id = {id}");
+        var entity = await unitOfWork.ProductRepository
+            .SelectAsync(product => product.Id.Equals(id)) 
+            ?? throw new NotFoundException($"This Product is not found with Id = {id}");
 
         if (entity.Asset is not null)
             await assetService.RemoveAsync(entity.Asset.Id);
@@ -91,28 +98,40 @@ public class ProductService : IProductService
 
     public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllAsync()
     {
-        var entities = await unitOfWork.ProductRepository.SelectAll(includes: new[] { "Asset" }).ToListAsync();
+        var entities = await unitOfWork.ProductRepository
+            .SelectAll(includes: new[] { "Asset" })
+            .ToListAsync();
+
         return mapper.Map<IEnumerable<ProductResultDto>>(entities);
     }
 
     public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllByCountryAsync(string country)
     {
-        var filteredProducts = await unitOfWork.ProductRepository.SelectAll(product => product.Country.Contains(country, StringComparison.OrdinalIgnoreCase), includes: new[] { "Asset" }).ToListAsync();
+        var filteredProducts = await unitOfWork.ProductRepository
+            .SelectAll(product => product.Country
+            .Contains(country, StringComparison.OrdinalIgnoreCase), 
+            includes: new[] { "Asset" })
+            .ToListAsync();
+
         return mapper.Map<IEnumerable<ProductResultDto>>(filteredProducts);
     }
 
     public async ValueTask<IEnumerable<ProductResultDto>> RetrieveAllByNameAsync(string name)
     {
-        var filteredProducts = await unitOfWork.ProductRepository.SelectAll(product => product.Name.Equals(name, StringComparison.OrdinalIgnoreCase), includes: new[] { "Asset" }).ToListAsync();
+        var filteredProducts = await unitOfWork.ProductRepository
+            .SelectAll(product => product.Name
+            .Equals(name, StringComparison.OrdinalIgnoreCase), 
+            includes: new[] { "Asset" })
+            .ToListAsync();
+
         return mapper.Map<IEnumerable<ProductResultDto>>(filteredProducts);
     }
 
     public async ValueTask<ProductResultDto> RetrieveByIdAsync(long id)
     {
-        Console.WriteLine(id);
-
-        var entity = await unitOfWork.ProductRepository.SelectAsync(product => product.Id == id, new[] { "Asset" }) ??
-            throw new NotFoundException($"This Product is not found with Id = {id}");
+        var entity = await unitOfWork.ProductRepository
+            .SelectAsync(product => product.Id == id, new[] { "Asset" })
+            ?? throw new NotFoundException($"This Product is not found with Id = {id}");
 
         return mapper.Map<ProductResultDto>(entity);
     }

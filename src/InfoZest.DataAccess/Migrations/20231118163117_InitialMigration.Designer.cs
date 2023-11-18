@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InfoZest.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231108114118_InitialMigration")]
+    [Migration("20231118163117_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -61,9 +61,6 @@ namespace InfoZest.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AssetId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -86,9 +83,6 @@ namespace InfoZest.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssetId")
-                        .IsUnique();
 
                     b.HasIndex("ProductId")
                         .IsUnique();
@@ -141,17 +135,11 @@ namespace InfoZest.DataAccess.Migrations
 
             modelBuilder.Entity("InfoZest.Domain.Entities.InvalidProduct", b =>
                 {
-                    b.HasOne("InfoZest.Domain.Entities.Asset", "Asset")
-                        .WithOne()
-                        .HasForeignKey("InfoZest.Domain.Entities.InvalidProduct", "AssetId");
-
                     b.HasOne("InfoZest.Domain.Entities.Product", "Product")
                         .WithOne()
                         .HasForeignKey("InfoZest.Domain.Entities.InvalidProduct", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Asset");
 
                     b.Navigation("Product");
                 });
