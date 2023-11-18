@@ -38,6 +38,7 @@ namespace InfoZest.Web.Controllers
                     Info = invalidProduct.Info,
                     IsBoykott = invalidProduct.IsBoycott,
                     IsHaram = invalidProduct.IsHaram,
+                    FIleName = invalidProduct.Product.Asset.FileName,
 
                 };
                 productViewModels.Add(productViewModel);
@@ -91,7 +92,7 @@ namespace InfoZest.Web.Controllers
 
                 await services.InvalidProductService.AddAsync(invalidProductCreationDto);
             }
-            return View();
+            return Redirect("Index");
         }
     }
 }
