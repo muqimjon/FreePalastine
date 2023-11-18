@@ -9,6 +9,5 @@ public class InvalidProductResultDto
     public bool IsBoycott { get; set; }
     public bool IsHaram { get; set; }
     public string Info { get; set; } = string.Empty;
-    public AssetResultDto Asset { get; set; } = default!;
     public Product Product { get; set; } = default!;
 }

@@ -8,5 +8,4 @@ public class InvalidProductCreationDto
     public bool IsHaram { get; set; }
     public string Info { get; set; } = string.Empty;
     public long ProductId { get; set; }
-    public IFormFile? Image { get; set; }
 }

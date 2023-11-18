@@ -8,9 +8,6 @@ public class InvalidProduct : Auditable
     public bool IsHaram{ get; set; }
     public string Info { get; set; }
 
-    public long AssetId { get; set; }
-    public Asset Asset { get; set; }
-
     public long ProductId { get; set; }
     public Product Product { get; set; }
 }

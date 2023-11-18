@@ -25,16 +25,20 @@ public class AssetService : IAssetService
         if (!Directory.Exists(webRootPath))
             Directory.CreateDirectory(webRootPath);
 
-        var fileExtention = Path.GetExtension(dto.FormFile.FileName);
-        var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtention}";
+        var fileExtension = Path.GetExtension(dto.FormFile.FileName);
+        var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
         var filePath = Path.Combine(webRootPath, fileName);
 
-        var fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-        await fileStream.WriteAsync(dto.FormFile.ToByte());
-        await dto.FormFile.CopyToAsync(fileStream);
+        using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
+        {
+            await fileStream.WriteAsync(dto.FormFile.ToByte());
+            await dto.FormFile.CopyToAsync(fileStream);
+        }
 
-        var imageUrl = $"{unitOfWork.HttpContextAccessor.HttpContext.Request.Scheme}:" +
-            $"//{unitOfWork.HttpContextAccessor.HttpContext.Request.Host}/image/{fileName}";
+        var imageUrl = $"{unitOfWork.HttpContextAccessor.HttpContext!.Request.Scheme}://" +
+                $"{unitOfWork.HttpContextAccessor.HttpContext.Request.Host}/image/{fileName}";
+
+
 
         var asset = new Asset()
         {
