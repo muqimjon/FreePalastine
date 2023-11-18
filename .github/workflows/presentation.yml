@@ -23,7 +23,7 @@ jobs:
       - name: Build Docker image
         run: docker build -t $REPOSITORY -f src/InfoZest.WebApi/Dockerfile .
       - name: Login to Docker account
-        run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
+        run: $PASSWORD | docker login --username $USERNAME --password-stdin
       - name: Push Docker image
         run: docker push $REPOSITORY
 
@@ -32,8 +32,6 @@ jobs:
     name: Deploy
     needs: dockerize
     runs-on: ubuntu-latest
-    env:
-      REPOSITORY: ${{ secrets.DOCKER_REPOSITORY}}
     steps:
       - name: SSH into AWS Ubuntu Server
         uses: appleboy/ssh-action@v1.0.0
@@ -44,6 +42,6 @@ jobs:
           port: 22
           script: |
             cd ~/app
-            docker-compose down
-            docker rmi $REPOSITORY
+            docker pull muqimjon/info-zest
             docker-compose up -d
+            docker images -f dangling=true
