@@ -54,13 +54,13 @@ public class InvalidProductService : IInvalidProductService
 
     public async ValueTask<IEnumerable<InvalidProductResultDto>> RetrieveAllAsync()
     {
-        var entities = await unitOfWork.InvalidProductRepository.SelectAll(includes: new[] { "Asset","Product" }).ToListAsync();
+        var entities = await unitOfWork.InvalidProductRepository.SelectAll(includes: new[] { "Product" }).ToListAsync();
         return mapper.Map<IEnumerable<InvalidProductResultDto>>(entities);
     }
 
     public async ValueTask<InvalidProductResultDto> RetrieveByIdAsync(long id)
     {
-        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct => invalidProduct.Id.Equals(id), new[] { "Asset" }) ??
+        var entity = await unitOfWork.InvalidProductRepository.SelectAsync(invalidProduct => invalidProduct.Id.Equals(id)) ??
             throw new NotFoundException($"This InvalidProduct is not found with Id = {id}");
 
         return mapper.Map<InvalidProductResultDto>(entity);
