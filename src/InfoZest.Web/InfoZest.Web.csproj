@@ -7,22 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\image\21d5d799e8574747a938fea052a346c3.jpg" />
-    <Content Remove="wwwroot\image\29f415dcb85549ca99fd9b010ca2d924.crdownload" />
-    <Content Remove="wwwroot\image\8b4aadabc8524f6a9390e656de7e0f8b.jpg" />
-    <Content Remove="wwwroot\image\e8d5b17948a14f8b893d618ad19f077a.crdownload" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\image\191d5fcd4b154388b42e308c18cdae9c.png" />
-    <None Include="wwwroot\image\21d5d799e8574747a938fea052a346c3.jpg" />
-    <None Include="wwwroot\image\29f415dcb85549ca99fd9b010ca2d924.crdownload" />
-    <None Include="wwwroot\image\7cc77764539e47aaaca4c7110563ab3c.png" />
-    <None Include="wwwroot\image\8b4aadabc8524f6a9390e656de7e0f8b.jpg" />
-    <None Include="wwwroot\image\e8d5b17948a14f8b893d618ad19f077a.crdownload" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

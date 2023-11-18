@@ -4,7 +4,6 @@ using InfoZest.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using InfoZest.Web.Models.Products;
 using InfoZest.Service.Interfaces.Commons;
-using InfoZest.Domain.Entities;
 
 namespace InfoZest.Web.Controllers
 {

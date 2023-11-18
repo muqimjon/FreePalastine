@@ -1,4 +1,5 @@
 using InfoZest.DataAccess.Contexts;
+using InfoZest.Service.Services;
 using InfoZest.Web.Exstention;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
