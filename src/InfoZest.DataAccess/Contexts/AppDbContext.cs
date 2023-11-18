@@ -25,11 +25,5 @@ public class AppDbContext : DbContext
             .HasOne(p => p.Product)
             .WithOne()
             .HasForeignKey<InvalidProduct>(i => i.ProductId);
-
-        modelBuilder.Entity<InvalidProduct>()
-            .HasOne(p => p.Asset)
-            .WithOne()
-            .HasForeignKey<InvalidProduct>(i => i.AssetId)
-            .IsRequired(false);
     }
 }

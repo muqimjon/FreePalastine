@@ -39,7 +39,6 @@ namespace InfoZest.Web.Controllers
                     Info = invalidProduct.Info,
                     IsBoykott = invalidProduct.IsBoycott,
                     IsHaram = invalidProduct.IsHaram,
-                    FIleName = invalidProduct.Asset.FileName,
 
                 };
                 productViewModels.Add(productViewModel);
@@ -85,7 +84,6 @@ namespace InfoZest.Web.Controllers
             {
                 var invalidProductCreationDto = new InvalidProductCreationDto
                 {
-                    Image = file,
                     IsBoycott = model.IsBoycott,
                     Info = model.Info,
                     IsHaram = model.IsHaram,
