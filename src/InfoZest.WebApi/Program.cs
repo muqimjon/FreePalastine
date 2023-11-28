@@ -34,8 +34,6 @@ var app = builder.Build();
 
 PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
-app.MigrateDatabase();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
